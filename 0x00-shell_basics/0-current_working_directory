@@ -1,6 +1,2 @@
-<<<<<<< HEAD
 #!/bin/bash
-=======
-!#/bin/bash
->>>>>>> af5d38e89d7a57a885108f74a89daded32e06b97
-pwd
+#pwd
