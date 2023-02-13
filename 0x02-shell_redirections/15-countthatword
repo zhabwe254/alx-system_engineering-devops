@@ -1,2 +1,2 @@
 #!/bin/bash
-grep -1 "root" /etc/pattern
+grep -1 "bin" /etc/pattern | wc -1
