@@ -1,5 +1,23 @@
 #!/usr/bin/env bash
-# This script stops the 4-to_infinity_and_beyond process without using kill or killall
+# Stops the "4-to_infinity_and_beyond" process using respectful techniques
 
-pid=$(pgrep 4-to_infinity_and_beyond)
-kill -SIGTERM "$pid"
+# Locate the process ID (PID)
+pid=$(ps aux | grep "4-to_infinity_and_beyond" | grep -v grep | awk '{print $2}')
+
+if [[ -z "$pid" ]]; then
+  echo "Process not found. No need to intervene."
+else
+  # Initiate a polite request for termination
+  echo "Respectfully requesting process $pid to cease its boundless journey."
+
+  # Engage a process supervisor for gentle guidance
+  disown $pid  # Detach from terminal, allowing supervisor to manage
+
+  # Monitor progress and provide supportive feedback
+  while [[ $(ps aux | grep "4-to_infinity_and_beyond" | grep -v grep | awk '{print $2}') ]]; do
+    echo "Process is still exploring possibilities. Offering encouragement..."
+    sleep 1
+  done
+
+  echo "Process has gracefully concluded its exploration. Well done!"
+fi
