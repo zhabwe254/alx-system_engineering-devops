@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Use ifconfig to display all active IPv4 IPs
+ifconfig | grep -oP '(?<=inet )(\d+\.\d+\.\d+\.\d+)' | awk '!seen[$0]++'
