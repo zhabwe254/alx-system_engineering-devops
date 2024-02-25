@@ -1,0 +1,34 @@
+Task 3: Scale Up
+
+Description
+This advanced task focuses on scaling up the web infrastructure by splitting
+components (web server, application server, database) onto their own servers and
+configuring a load balancer (HAproxy) cluster for high availability.
+Requirements
+• 1 server
+• 1 load-balancer (HAproxy) configured as a cluster with the other one
+• Split components (web server, application server, database) with their own
+server
+
+Specifics of the Infrastructure
+• Server: The additional server is added to distribute the workload across
+different components.
+• Load-Balancer Cluster: HAproxy is configured as a cluster to ensure high
+availability and distribute incoming traffic.
+• Split Components: Each component (web server, application server,
+database) now resides on its own server, allowing for better resource
+management and scalability.
+
+Explanations
+• Server Addition: Adding another server allows for better scalability and
+resource management. It ensures that each component has dedicated
+resources.
+• Load-Balancer Cluster: Clustering HAproxy provides redundancy and fault
+tolerance. If one load balancer fails, the other can take over seamlessly.
+• Split Components: Splitting components onto separate servers improves
+performance and allows for easier scaling. For example, if the database server
+needs more resources, it can be scaled independently without affecting other
+components.
+
+Link:
+https://i.ibb.co/Rh24Cyv/3-scale-up.jpg

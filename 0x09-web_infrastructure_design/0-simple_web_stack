@@ -1,0 +1,28 @@
+Task 0: Simple Web Stack
+
+Description:
+This project implements a simple web infrastructure using a LAMP stack.
+
+Components:
+- 1 server
+- 1 web server (Nginx)
+- 1 application server
+- 1 application files (code base)
+- 1 database (MySQL)
+- 1 domain name foobar.com configured with a www record pointing to server IP 8.8.8.8
+
+Explanations:
+- **Server**: Provides hosting for all components.
+- **Domain Name**: Maps human-readable domain (foobar.com) to server IP.
+- **www DNS Record**: Points the domain to the web server.
+- **Web Server (Nginx)**: Handles HTTP requests and serves static content.
+- **Application Server**: Executes dynamic code and interacts with the database.
+- **Database (MySQL)**: Stores website data.
+
+Issues:
+- Single Point of Failure (SPOF)
+- Downtime during maintenance
+- Limited scalability with increased traffic
+
+Link:
+https://i.ibb.co/GWjSSM2/0-simple-web-stack.png

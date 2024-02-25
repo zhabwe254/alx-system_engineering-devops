@@ -1,0 +1,27 @@
+
+Task 2: Secured and Monitored Web Infrastructure
+
+Description:
+This project implements a secured, encrypted, and monitored web infrastructure for
+www.foobar.com.
+
+Components:
+- 3 firewalls
+- 1 SSL certificate for HTTPS
+- 3 monitoring clients (e.g., Sumologic)
+
+Explanations:
+- **Firewalls**: Provide network security.
+- **SSL Certificate**: Enables HTTPS for secure, encrypted traffic.
+- **Monitoring Clients**: Collect data for monitoring.
+- **Load Balancer (HAproxy)**: Terminates SSL, can be a security risk.
+- **MySQL Servers**: Potential issues with write capacity and uniformity.
+- **Servers**: Similar components can lead to homogeneity issues.
+
+Issues:
+- SSL termination at load balancer poses security risks
+- Single MySQL server for writes creates bottleneck
+- Uniform server components may lead to scaling issues
+
+Link:
+https://i.ibb.co/nBZHnNC/2-secured-and-monitored-web-infrastructure.jpg

@@ -1,0 +1,28 @@
+Task 1: Distributed Web Infrastructure
+
+Description:
+This project implements a distributed web infrastructure for www.foobar.com.
+
+Components:
+- 2 servers
+- 1 web server (Nginx)
+- 1 application server
+- 1 load balancer (HAproxy)
+- 1 set of application files (code base)
+- 1 database (MySQL)
+
+Explanations:
+- **Server 1**: Hosts web server, application server, and load balancer.
+- **Server 2**: Hosts application server and database.
+- **Web Server (Nginx)**: Handles HTTP requests and serves static content.
+- **Application Server**: Executes dynamic code.
+- **Load Balancer (HAproxy)**: Distributes traffic across servers.
+- **Database (MySQL)**: Primary-Replica cluster for data redundancy.
+
+Issues:
+- Single Point of Failure (SPOF)
+- Lack of security measures (no firewall, no HTTPS)
+- Absence of monitoring
+
+Link:
+https://i.ibb.co/XjL9Pt0/1-distributed-web-infrastructure.jpg
