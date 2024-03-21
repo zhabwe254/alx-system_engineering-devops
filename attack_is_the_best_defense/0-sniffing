@@ -1,0 +1,63 @@
+#!/bin/bash
+
+echo "sylvain@ubuntu$ telnet smtp.sendgrid.net 587"
+sleep 2
+
+echo "Trying 167.89.121.145..."
+sleep 2
+
+echo "Connected to smtp.sendgrid.net."
+echo "Escape character is '^]'."
+sleep 2
+
+echo "220 SG ESMTP service ready at ismtpd0013p1las1.sendgrid.net"
+sleep 2
+
+echo "EHLO ismtpd0013p1las1.sendgrid.net"
+echo "250-smtp.sendgrid.net"
+echo "250-8BITMIME"
+echo "250-PIPELINING"
+echo "250-SIZE 31457280"
+echo "250-STARTTLS"
+echo "250-AUTH PLAIN LOGIN"
+echo "250 AUTH=PLAIN LOGIN"
+sleep 2
+
+echo "auth login"
+echo "334 VXNlcm5hbWU6"
+sleep 2
+
+echo "VGhpcyBpcyBteSBsb2dpbg=="
+echo "334 UGFzc3dvcmQ6"
+sleep 2
+
+echo "WW91IHJlYWxseSB0aG91Z2h0IEkgd291bGQgbGV0IG15IHBhc3N3b3JkIGhlcmU/ISA6RA=="
+echo "235 Authentication successful"
+sleep 2
+
+echo "mail from: sylvain@kalache.fr"
+echo "250 Sender address accepted"
+sleep 2
+
+echo "rcpt to: julien@google.com"
+echo "250 Recipient address accepted"
+sleep 2
+
+echo "data"
+echo "354 Continue"
+echo "To: Julien"
+echo "From: Sylvain"
+echo "Subject: Hello from the insecure world"
+echo ""
+echo "I am sending you this email from a Terminal."
+echo "."
+sleep 2
+
+echo "250 Ok: queued as Aq1zhMM3QYeEprixUiFYNg"
+echo "quit"
+echo "221 See you later"
+echo "Connection closed by foreign host."
+sleep 2
+
+exit 0
+
