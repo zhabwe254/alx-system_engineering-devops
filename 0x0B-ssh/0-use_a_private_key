@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
-# This script uses ssh to connect to a server using the private key ~/.ssh/school with the user ubuntu.
 
-ssh -i ~/.ssh/school ubuntu@8.8.8.8
+# Connect to the server using SSH with private key
+ssh -i ~/.ssh/school ubuntu@server01
+
+# Exit the session (optional, can be removed)
+exit
+
