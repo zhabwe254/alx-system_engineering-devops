@@ -1,16 +1,8 @@
 #!/usr/bin/env bash
+# This script installs nginx on ubuntu server
 
-# Update package lists
-sudo apt-get update -y
-
-# Install Nginx
-sudo apt-get install nginx -y
-
-# Verify Nginx is running
-sudo systemctl status nginx
-
-# Create a simple test HTML file
-echo "Hello World!" > /var/www/html/index.html
-
-# Restart Nginx (avoid using systemctl)
+sudo apt-get update -y && sudo apt-get upgrade -y
+sudo apt-get install -y nginx
+echo "Hello World!" | sudo tee /var/www/html/index.nginx-debian.html
+sudo ufw allow 'Nginx HTTP'
 sudo service nginx restart

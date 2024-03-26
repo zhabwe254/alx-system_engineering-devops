@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 # Configure nginx to redirect /redirect_me to another page
 
+apt-get update
+apt-get install -y nginx
+
 # Backup default configuration
 cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
 
