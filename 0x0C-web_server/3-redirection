@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# This script configures nginx redirection
+
+# Create a temporary config file for nginx redirection
+cat > /etc/nginx/sites-available/default <<EOF
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    root /var/www/html;
+    index index.html index.htm;
+
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+}
+EOF
+
+# Restart nginx to apply changes
+service nginx restart

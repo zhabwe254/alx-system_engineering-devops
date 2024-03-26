@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# This script installs and configures nginx web server on Ubuntu
+
+# Install nginx
+apt-get update
+apt-get install -y nginx
+
+# Check if nginx is installed
+if [ ! -x /usr/sbin/nginx ]; then
+    echo "Error: Nginx installation failed"
+    exit 1
+fi
+
+# Create HTML file with Hello World
+echo "Hello World!" > /var/www/html/index.html
+
+# Restart nginx
+service nginx restart
