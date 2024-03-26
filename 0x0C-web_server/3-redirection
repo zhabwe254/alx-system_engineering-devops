@@ -1,21 +1,24 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# Configure nginx to redirect /redirect_me to another page
 
-# Create a new server block configuration file
-sudo touch /etc/nginx/sites-available/redirect.conf
+# Backup default configuration
+cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
 
-# Add server block configuration (replace "your_target_url" with the actual URL)
-cat << EOF >> /etc/nginx/sites-available/redirect.conf
+# Create a new server block to handle the redirection
+cat <<EOF > /etc/nginx/sites-available/redirect
 server {
-  listen 80;
-
-  location /redirect_me {
-    return 301 https://your_target_url;
-  }
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name _;
+    
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
 }
 EOF
 
-# Enable the new server block configuration
-sudo ln -s /etc/nginx/sites-available/redirect.conf /etc/nginx/sites-enabled/redirect.conf
+# Enable the new server block
+ln -sf /etc/nginx/sites-available/redirect /etc/nginx/sites-enabled/redirect
 
-# Restart Nginx
-sudo systemctl restart nginx
+# Restart nginx
+service nginx restart
