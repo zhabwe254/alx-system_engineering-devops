@@ -1,0 +1,35 @@
+# Log into the Docker container
+docker exec -it vigilant_tesla /bin/bash
+
+# Check Apache status to ensure it's running
+service apache2 status
+
+# If Apache is not running, start it
+service apache2 start
+
+# Navigate to Apache configuration directory
+cd /etc/apache2/sites-available
+
+# Edit the default Apache configuration file
+# We need to ensure the DocumentRoot is set to /var/www/html
+# and there is a DirectoryIndex specifying index.html
+vim 000-default.conf
+
+# Update the configuration to look like this:
+# DocumentRoot /var/www/html
+# <Directory /var/www/html>
+#     Options Indexes FollowSymLinks
+#     AllowOverride None
+#     Require all granted
+#     DirectoryIndex index.html
+# </Directory>
+# Save and exit the file
+
+# Create an index.html file in the DocumentRoot
+echo "Hello Holberton" > /var/www/html/index.html
+
+# Restart Apache to apply changes
+service apache2 restart
+
+# Exit the container
+exit
