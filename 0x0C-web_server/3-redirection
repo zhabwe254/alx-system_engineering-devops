@@ -1,23 +1,21 @@
-#!/usr/bin/env bash
-# This script configures nginx redirection
+#!/bin/bash
 
-# Create a temporary config file for nginx redirection
-cat > /etc/nginx/sites-available/default <<EOF
+# Create a new server block configuration file
+sudo touch /etc/nginx/sites-available/redirect.conf
+
+# Add server block configuration (replace "your_target_url" with the actual URL)
+cat << EOF >> /etc/nginx/sites-available/redirect.conf
 server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-    root /var/www/html;
-    index index.html index.htm;
+  listen 80;
 
-    location / {
-        try_files \$uri \$uri/ =404;
-    }
-
-    location /redirect_me {
-        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
-    }
+  location /redirect_me {
+    return 301 https://your_target_url;
+  }
 }
 EOF
 
-# Restart nginx to apply changes
-service nginx restart
+# Enable the new server block configuration
+sudo ln -s /etc/nginx/sites-available/redirect.conf /etc/nginx/sites-enabled/redirect.conf
+
+# Restart Nginx
+sudo systemctl restart nginx
