@@ -1,45 +1,12 @@
-# Puppet manifest to install and configure Nginx web server
+# Installs and configure an Nginx server using Puppet instead of Bash
+# Nginx should be listening on port 80
+# When querying Nginx at its root / with a GET request (requesting a page)
+# using curl, it must return a page that contains the string Hello World!
+# The redirection must be a “301 Moved Permanently”
+# Your answer file should be a Puppet manifest containing commands to
+# automatically configure an Ubuntu machine to respect above requirements
 
-# Install Nginx package
-package { 'nginx':
-  ensure => installed,
-}
-
-# Define Nginx service
-service { 'nginx':
-  ensure  => running,
-  enable  => true,
-  require => Package['nginx'],
-}
-
-# Configure Nginx site
-file { '/etc/nginx/sites-available/default':
-  ensure  => present,
-  content => template('nginx/default.erb'),
-  require => Package['nginx'],
-  notify  => Service['nginx'],
-}
-
-# Create a custom default template for Nginx configuration
-file { '/etc/nginx/sites-available/default':
-  ensure  => present,
-  content => template('nginx/default.erb'),
-  require => Package['nginx'],
-  notify  => Service['nginx'],
-}
-
-# Nginx redirect resource
-nginx::resource::vhost { 'redirect':
-  www_root    => '/var/www/html',
-  listen_port => '80',
-  proxy       => 'http://www.youtube.com/watch?v=QH2-TGUlwu4',
-  redirect    => true,
-}
-
-# Template for Nginx default configuration
-file { '/etc/nginx/sites-available/default.erb':
-  ensure  => present,
-  content => template('nginx/default.erb'),
-  require => Package['nginx'],
-  notify  => Service['nginx'],
+exec {'install':
+  provider => shell,
+  command  => 'sudo apt-get -y update ; sudo apt-get -y install nginx ; echo "Hello World!" | sudo tee /var/www/html/index.nginx-debian.html ; sudo sed -i "s/server_name _;/server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/luischaparroc permanent;/" /etc/nginx/sites-available/default ; sudo service nginx start',
 }
