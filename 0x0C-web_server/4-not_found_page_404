@@ -1,14 +1,30 @@
 #!/usr/bin/env bash
-# Configure nginx to have a custom 404 page
+# Configure your Nginx server to have a custom 404 page
 
-# Backup default configuration
-cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
+apt-get update
+apt-get install -y nginx
 
-# Create a custom 404 page
-echo "Ceci n'est pas une page" > /usr/share/nginx/html/404.html
+mkdir /etc/nginx/html
+touch /etc/nginx/html/index.html
+echo "Hello World!" > /etc/nginx/html/index.html
+touch /etc/nginx/html/404.html
+echo "Ceci n'est pas une page" > /etc/nginx/html/404.html
 
-# Modify default configuration to use the custom 404 page
-sed -i '/server_name _;/a \\n\terror_page 404 /404.html;\n' /etc/nginx/sites-available/default
+printf %s "server {
+    listen 80;
+    listen [::]:80 default_server;
+    root   /etc/nginx/html;
+    index  index.html index.htm;
 
-# Restart nginx
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+
+    error_page 404 /404.html;
+    location /404 {
+      root /etc/nginx/html;
+      internal;
+    }
+}" > /etc/nginx/sites-available/default
+
 service nginx restart
