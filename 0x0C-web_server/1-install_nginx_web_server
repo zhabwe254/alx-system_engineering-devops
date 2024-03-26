@@ -1,18 +1,18 @@
-#!/usr/bin/env bash
-# This script installs and configures nginx web server on Ubuntu
+#!/bin/bash
 
-# Install nginx
-apt-get update
-apt-get install -y nginx
+# Update package lists
+sudo apt-get update
 
-# Check if nginx is installed
-if [ ! -x /usr/sbin/nginx ]; then
-    echo "Error: Nginx installation failed"
-    exit 1
-fi
+# Install Nginx
+sudo apt-get install nginx -y
 
-# Create HTML file with Hello World
+# Verify Nginx is running
+sudo systemctl status nginx
+
+# (Optional) Configure Nginx to listen on port 80 (edit /etc/nginx/sites-available/default and modify the listen directive)
+
+# Create a simple test HTML file
 echo "Hello World!" > /var/www/html/index.html
 
-# Restart nginx
-service nginx restart
+# Restart Nginx
+sudo systemctl restart nginx
