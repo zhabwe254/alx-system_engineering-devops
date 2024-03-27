@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
-# Configure Apache to return "Hello Holberton" when querying the root
+# Script to fix Apache server returning "Hello Holberton" on port 8080
 
-# Start Apache in the background
-apache2ctl start
+# Install Apache if not already installed
+apt-get update
+apt-get install -y apache2
 
-# Create an HTML file with "Hello Holberton" content
+# Start Apache server
+service apache2 start
+
+# Create index.html file with "Hello Holberton" content
 echo "Hello Holberton" > /var/www/html/index.html
 
-# Check Apache status (optional)
-service apache2 status
-
-# Tail Apache logs for debugging (optional)
-tail -f /var/log/apache2/access.log /var/log/apache2/error.log
+# Restart Apache to apply changes
+service apache2 restart
