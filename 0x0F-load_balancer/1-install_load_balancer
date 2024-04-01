@@ -1,24 +1,19 @@
 #!/usr/bin/env bash
 # Install and configure HAProxy as a load balancer
 
-# Install HAProxy
+# Update and install HAProxy
 sudo apt-get update
-sudo apt-get install -y haproxy
-
-# Backup original HAProxy configuration
-sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.bak
+sudo apt-get -y install haproxy
 
 # Configure HAProxy
-cat <<EOF | sudo tee /etc/haproxy/haproxy.cfg > /dev/null
+cat <<EOF | sudo tee /etc/haproxy/haproxy.cfg
 frontend http_front
     bind *:80
-    mode http
+    stats uri /haproxy?stats
     default_backend http_back
 
 backend http_back
-    mode http
     balance roundrobin
-    option http-server-close
     server web1 [STUDENT_ID]-web-01:80 check
     server web2 [STUDENT_ID]-web-02:80 check
 EOF
