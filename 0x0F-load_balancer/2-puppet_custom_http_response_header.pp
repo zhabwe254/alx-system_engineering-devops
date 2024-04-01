@@ -1,38 +1,26 @@
-# Puppet manifest to configure Nginx with custom X-Served-By HTTP response header
+# Installs a Nginx server with custom HTTP header
 
-# Install Nginx package
-package { 'nginx':
-  ensure => installed,
+exec { 'update':
+  command => '/usr/bin/apt-get update -y',
+  path    => ['/usr/bin', '/bin'],
 }
 
-# Define Nginx server configuration
-file { '/etc/nginx/sites-available/default':
-  ensure  => present,
-  content => '
-server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-
-    root /var/www/html;
-    index index.html index.htm index.nginx-debian.html;
-
-    server_name _;
-
-    location / {
-        try_files $uri $uri/ =404;
-    }
-
-    # Custom HTTP header
-    add_header X-Served-By $host;
-
-}
-',
-  notify => Service['nginx'],
+exec { 'install Nginx':
+  command => '/usr/bin/apt-get install -y nginx',
+  path    => ['/usr/bin', '/bin'],
+  require => Exec['update'],
 }
 
-# Ensure Nginx service is running and enabled
-service { 'nginx':
-  ensure  => running,
-  enable  => true,
-  require => Package['nginx'],
+exec { 'add_header':
+  command     => 'sed -i "s/include \/etc\/nginx\/sites-enabled\/\*;/include \/etc\/nginx\/sites-enabled\/\*;\n\tadd_header X-Served-By \"$HOST\";/" /etc/nginx/nginx.conf',
+  path        => ['/usr/bin', '/bin'],
+  environment => ["HOST=${hostname}"],
+  require     => Exec['install Nginx'],
+  notify      => Exec['restart Nginx'],
+}
+
+exec { 'restart Nginx':
+  command => 'service nginx restart',
+  path    => ['/usr/bin', '/bin'],
+  require => Exec['add_header'],
 }
