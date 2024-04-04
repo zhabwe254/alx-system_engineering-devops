@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# HAproxy configuration for SSL termination
+
+cat <<EOF > /etc/haproxy/haproxy.cfg
+frontend www-http
+    bind *:80
+    redirect scheme https code 301 if !{ ssl_fc }
+
+frontend www-https
+    bind *:443 ssl crt /etc/haproxy/certs/holberton.online.pem
+    reqadd X-Forwarded-Proto:\ https
+    default_backend web_servers
+
+backend web_servers
+    balance roundrobin
+    option http-server-close
+    option forwardfor
+    server web-01 34.198.248.145:80 check
+    server web-02 54.89.38.100:80 check
+
+EOF
+
+# Ensure HAProxy restarts to apply changes
+systemctl restart haproxy
