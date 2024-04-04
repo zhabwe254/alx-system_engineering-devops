@@ -1,36 +1,31 @@
 #!/usr/bin/env bash
 # This script displays information about subdomains of a given domain
 
-# Function to get DNS info and display
-get_dns_info() {
-    sub_domain=$1
-    domain=$2
-    record_type=$3
-    dest=$4
-
-    echo "The subdomain $sub_domain is a $record_type record and points to $dest"
+get_record_type() {
+    domain=$1
+    sub_domain=$2
+    record_type=$(dig $sub_domain.$domain | awk '/ANSWER SECTION/ {getline; print $4}')
+    echo $record_type
 }
 
-# Check if domain and subdomain are provided
-if [ $# -eq 0 ]; then
-    echo "Usage: $0 domain [subdomain]"
-    exit 1
-fi
+get_destination() {
+    domain=$1
+    sub_domain=$2
+    destination=$(dig $sub_domain.$domain | awk '/ANSWER SECTION/ {getline; getline; print $5}')
+    echo $destination
+}
 
 domain=$1
-subdomains=("www" "lb-01" "web-01" "web-02")
+sub_domain=$2
 
-# Loop through subdomains
-for sub in "${subdomains[@]}"; do
-    if [ $# -eq 1 ] || [ "$sub" == "$2" ]; then
-        result=$(dig +short $sub.$domain)
-        if [ -z "$result" ]; then
-            echo "The subdomain $sub does not exist."
-        else
-            record_type=$(dig $sub.$domain | awk '/IN\s/{print $4}')
-            get_dns_info "$sub" "$domain" "$record_type" "$result"
-        fi
-    fi
+if [ -z "$sub_domain" ]; then
+    sub_domains=("www" "lb-01" "web-01" "web-02")
+else
+    sub_domains=("$sub_domain")
+fi
+
+for sub in "${sub_domains[@]}"; do
+    record_type=$(get_record_type $domain $sub)
+    destination=$(get_destination $domain $sub)
+    echo "The subdomain $sub is a $record_type record and points to $destination"
 done
-
-exit 0
