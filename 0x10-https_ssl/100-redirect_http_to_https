@@ -1,22 +1,16 @@
+#!/usr/bin/env bash
+# This is the HAproxy configuration for redirecting HTTP to HTTPS
+
 frontend http_front
     bind *:80
-    mode http
-    option forwardfor
     redirect scheme https code 301 if !{ ssl_fc }
 
-frontend https_front
-    bind *:443 ssl crt /etc/ssl/haproxy/
-    mode http
-    option forwardfor
+frontend ssl_termination
+    bind *:443 ssl crt /etc/ssl/holberton.pem
+    reqadd X-Forwarded-Proto:\ https
+    default_backend web_servers
 
-    # Add your other HTTPS configuration here, if any
-
-    default_backend servers
-
-backend servers
-    mode http
+backend web_servers
     balance roundrobin
-    option http-server-close
-    option forwardfor
-    server server1 10.0.0.1:80 check
-    # Add more backend servers if needed
+    server web-01 34.198.248.145:80 check
+    server web-02 54.89.38.100:80 check
