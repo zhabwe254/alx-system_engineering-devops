@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
-# Short and sweet fix for Nginx listening on port 80
-sed -i 's/listen 80 default_server;/listen 80;/g' /etc/nginx/sites-available/default
-service nginx restart
+# This script configures Nginx to listen on port 80 in a short manner
+
+# Stop Nginx service
+service nginx stop
+
+# Update Nginx configuration to listen on port 80
+sed -i 's/80 default_server/80 default_server ipv4only=on/' /etc/nginx/sites-available/default
+
+# Start Nginx service
+service nginx start
