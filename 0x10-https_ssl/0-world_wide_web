@@ -1,31 +1,30 @@
 #!/usr/bin/env bash
-# This script displays information about subdomains of a given domain
+# Bash script that will display information about subdomains.
+function domain_check {
+	domain_names=("www" "lb-01" "web-01" "web-02")
 
-get_record_type() {
-    domain=$1
-    sub_domain=$2
-    record_type=$(dig $sub_domain.$domain | awk '/ANSWER SECTION/ {getline; print $4}')
-    echo $record_type
+	for i in "${domain_names[@]}";
+	do
+		dig "${i}"."$1" | grep -A1 'ANSWER SECTION:' | \
+		awk 'FNR == 2 {printf "The subdomain %s is a %s record and points to %s\n", var, $4, $5}' var="$i"
+	done
 }
 
-get_destination() {
-    domain=$1
-    sub_domain=$2
-    destination=$(dig $sub_domain.$domain | awk '/ANSWER SECTION/ {getline; getline; print $5}')
-    echo $destination
+function subdomain_check {
+	dig "${2}"."$1" | grep -A1 'ANSWER SECTION:' | \
+	awk 'FNR == 2 {printf "The subdomain %s is a %s record and points to %s\n", var, $4, $5}' var="$2"
 }
 
-domain=$1
-sub_domain=$2
-
-if [ -z "$sub_domain" ]; then
-    sub_domains=("www" "lb-01" "web-01" "web-02")
+if [ $# -lt 1 ]
+then
+	echo "*** Provide domain name ***"
+elif [ $# -eq 1 ]
+then
+	domain_check "$1";
 else
-    sub_domains=("$sub_domain")
+	subdomain_check "$1" "$2";
 fi
 
-for sub in "${sub_domains[@]}"; do
-    record_type=$(get_record_type $domain $sub)
-    destination=$(get_destination $domain $sub)
-    echo "The subdomain $sub is a $record_type record and points to $destination"
-done
+# Testing the redirection from HTTP to HTTPS for 'www' subdomain
+echo "Testing the redirection from HTTP to HTTPS for 'www' subdomain:"
+curl -sIL http://www.$1 | grep -Ei "HTTP/1.1 301|Location:"
