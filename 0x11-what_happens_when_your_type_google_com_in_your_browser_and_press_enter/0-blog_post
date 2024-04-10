@@ -1,0 +1,78 @@
+What Happens When You Type “https://www.google.com” in Your Browser and Press Enter?
+Zhabwe
+Zhabwe
+
+·
+Follow
+
+3 min read
+·
+Just now
+
+
+
+Introduction
+
+Have you ever wondered about the intricate process that unfolds right after you hit the “Enter” key after typing “https://www.google.com” in your web browser? Have you ever been curious about what transpires in those few seconds that lead to the list of search results displayed by Google when you search for something? If you’ve had these questions, I’m here to demystify the whole journey for you. Instead of just skimming the surface, I’ll delve into the nitty-gritty details, ensuring that you gain a comprehensive understanding of how the internet functions. Rest assured, I’ll break everything down into bite-sized pieces so that you can grasp it fully.
+
+Before we embark on this exploration, let’s establish a common understanding: A web browser is a software application that you use to access the internet. Familiar examples include Chrome, Firefox, Safari, and Edge. Now, fasten your seatbelt, and let’s take this informative journey together.
+
+A Brief Explanation of What Happens
+
+When you input a URL like “https://www.google.com” into your web browser and press Enter, a complex series of events unfold in the background before you see any output on your screen. Thankfully, this entire process takes just a fraction of a second, so we rarely pause to consider it. Let’s start with a general overview of what happens in those fleeting moments:
+
+DNS Request (Domain Name System):
+
+Your computer sends a request to the DNS server, which acts like an address book for all domain names.
+
+The DNS server promptly returns the precise IP address associated with the “https://www.google.com” domain.
+
+TCP/IP Connection:
+
+Armed with this IP address, your computer initiates a connection with the server using the Transmission Control Protocol (TCP) via the Internet Protocol (IP).
+
+This connection process is commonly referred to as a “handshake.”
+
+Firewall:
+
+If your computer resides behind a firewall, the firewall conducts a quick check to ensure that your specific request is permitted before granting access.
+
+Similarly, if the server you’re trying to reach is behind a firewall, it performs a similar check before allowing the connection.
+
+HTTPS and SSL (Secure Sockets Layer):
+
+Once the connection is established, your browser submits a request for the webpage, employing an encryption protocol such as SSL or Transport Layer Security (TLS) to secure the data exchanged between your computer and the server.
+
+This encryption is symbolized by the “s” in “https,” indicating a secure connection.
+
+Load Balancer:
+
+Major traffic websites like Google employ an array of servers and utilize load balancers to distribute incoming requests to specific servers.
+
+The load balancer decides which server or data center should handle your request.
+
+Web Server:
+
+The web server receives your request and processes it.
+
+It retrieves the necessary files (HTML, CSS, JavaScript, etc.) to construct the webpage you requested.
+
+Application Server (if applicable):
+
+For dynamic content (e.g., personalized search results), an application server processes your request.
+
+It interacts with databases and other services to generate the final content.
+
+Database (if applicable):
+
+If the requested page relies on data from a database (e.g., user profiles, search history), the application server queries the database.
+
+Rendering the Page:
+
+Finally, your browser receives the HTML, CSS, and JavaScript files from the web server.
+
+It renders the page, displaying the familiar Google search bar and other elements.
+
+Conclusion
+
+Next time you type “https://www.google.com” and press Enter, remember the intricate dance of DNS, TCP/IP, firewalls, encryption, load balancers, web servers, application servers, and databases that occurs behind the scenes. The internet is a marvel of engineering, and now you have a backstage pass to its inner workings!
