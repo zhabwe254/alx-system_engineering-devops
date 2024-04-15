@@ -1,12 +1,16 @@
 #!/usr/bin/env bash
-# Configures firewall on web-01
+# Configures firewall on web-01 (macOS version)
 
-# Update and install ufw
-sudo apt-get update
-sudo apt-get install ufw -y
+# Check if ufw is installed
+if ! command -v ufw &>/dev/null; then
+    echo "ufw is not installed. Exiting."
+    exit 1
+fi
 
-# Enable ufw and allow specific ports
+# Enable firewall
 sudo ufw enable
+
+# Allow specific ports
 sudo ufw allow 22/tcp
 sudo ufw allow 443/tcp
 sudo ufw allow 80/tcp
