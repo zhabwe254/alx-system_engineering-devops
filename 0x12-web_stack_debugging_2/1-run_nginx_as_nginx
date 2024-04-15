@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+# This script configures the container to run Nginx as the nginx user
+
+# Check if Nginx is already running as nginx user
+if [ "$(ps aux | grep nginx | grep -v grep | awk '{print $1}')" != "nginx" ]; then
+  # Stop Nginx
+  sudo systemctl stop nginx
+
+  # Grant permissions to Nginx user
+  sudo chown -R nginx:nginx /var/lib/nginx /var/log/nginx
+
+  # Configure Nginx to run as nginx user
+  sudo sed -i 's/user root;/user nginx;/' /etc/nginx/nginx.conf
+
+  # Start Nginx
+  sudo systemctl start nginx
+fi
+
+# Check if Nginx is listening on port 8080
+if [ ! nc -z localhost 8080 ]; then
+  echo "Nginx is listening on port 8080"
+else
+  echo "Nginx is not listening on port 8080"
+fi
