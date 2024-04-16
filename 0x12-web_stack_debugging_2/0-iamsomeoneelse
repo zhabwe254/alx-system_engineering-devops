@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
-
 # This script runs the whoami command as the user passed as an argument
 
-if [ $# -eq 1 ]; then
-  sudo -n whoami -u "$1"
-else
-  echo "Please provide one argument: the username"
+user="$1"
+
+if [ -z "$user" ]; then
+    echo "Usage: $0 <username>"
+    exit 1
 fi
+
+sudo -u "$user" whoami
