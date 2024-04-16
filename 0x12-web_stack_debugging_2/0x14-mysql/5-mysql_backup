@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Create a backup of all MySQL databases
+
+# Set variables
+backup_dir="/tmp"
+backup_file="backup.sql"
+backup_name="$(date +'%d-%m-%Y').tar.gz"
+mysql_root_password="$1"
+
+# Create backup file
+sudo mysqldump -u root -p"$mysql_root_password" --all-databases > "$backup_dir/$backup_file"
+
+# Compress backup file
+sudo tar -czvf "$backup_dir/$backup_name" "$backup_dir/$backup_file"
+
+# Remove backup file
+sudo rm "$backup_dir/$backup_file"
