@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Install MySQL 5.7 on Ubuntu 16.04
+
+# Add MySQL APT repository
+sudo apt-get update
+sudo apt-get install -y software-properties-common
+sudo apt-key adv --keyserver keys.gnupg.net --recv-keys 5072E1F5
+sudo add-apt-repository 'deb http://repo.mysql.com/apt/ubuntu/ xenial mysql-5.7'
+
+# Install MySQL server
+sudo apt-get update
+sudo apt-get install -y mysql-server=5.7.30-1ubuntu16.04
+
+# Enable remote access to MySQL
+sudo sed -i 's/bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/' /etc/mysql/mysql.conf.d/mysqld.cnf
+
+# Restart MySQL service
+sudo systemctl restart mysql

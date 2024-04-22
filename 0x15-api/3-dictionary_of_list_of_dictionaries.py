@@ -1,26 +1,18 @@
 #!/usr/bin/python3
-"""
-Exports data gathered from an API to JSON format containing tasks from all employees.
-"""
+"""Exports to-do list information of all employees to JSON format."""
 import json
 import requests
 
 if __name__ == "__main__":
-    base_url = "https://jsonplaceholder.typicode.com"
-    users_url = "{}/users".format(base_url)
+    url = "https://jsonplaceholder.typicode.com/"
+    users = requests.get(url + "users").json()
 
-    try:
-        users_response = requests.get(users_url)
-        users_data = users_response.json()
-    except Exception as e:
-        sys.exit("Error: {}".format(str(e)))
-
-    if users_response.status_code != 200:
-        sys.exit("Error: User data not found")
-
-    all_tasks = {}
-    for user in users_data:
+    all_todos = {}
+    for user in users:
         user_id = user.get("id")
-        todos_url = "{}/todos?userId={}".format(base_url, user_id)
-        try:
-            todos_response = requests.get(todos_url
+        username = user.get("username")
+        todos = requests.get(url + "todos", params={"userId": user_id}).json()
+        all_todos[user_id] = [{"task": t.get("title"), "completed": t.get("completed"), "username": username} for t in todos]
+
+    with open("todo_all_employees.json", "w") as jsonfile:
+        json.dump(all_todos, jsonfile, indent=4)

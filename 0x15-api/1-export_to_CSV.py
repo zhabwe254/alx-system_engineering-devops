@@ -1,31 +1,27 @@
 #!/usr/bin/python3
-"""
-Exports data gathered from an API to CSV format.
-"""
-import sys
+"""Exports to-do list information for a given employee ID to CSV format."""
 import csv
 import requests
+import sys
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        sys.exit("Usage: {} <employee_id>".format(sys.argv[0]))
+        print("Usage: {} <employee_id>".format(sys.argv[0]))
+        sys.exit(1)
 
-    employee_id = sys.argv[1]
-    base_url = "https://jsonplaceholder.typicode.com"
-    todos_url = "{}/todos?userId={}".format(base_url, employee_id)
-
+    user_id = sys.argv[1]
+    url = "https://jsonplaceholder.typicode.com/"
     try:
-        todos_response = requests.get(todos_url)
-        todos_data = todos_response.json()
-    except Exception as e:
-        sys.exit("Error: {}".format(str(e)))
+        user_id = int(user_id)
+    except ValueError:
+        print("Employee ID must be an integer.")
+        sys.exit(1)
 
-    if todos_response.status_code != 200:
-        sys.exit("Error: TODO list data not found")
+    user = requests.get(url + "users/{}".format(user_id)).json()
+    username = user.get("username")
+    todos = requests.get(url + "todos", params={"userId": user_id}).json()
 
-    csv_filename = "{}.csv".format(employee_id)
-    with open(csv_filename, mode='w', newline='') as file:
-        writer = csv.writer(file, quoting=csv.QUOTE_ALL)
-        writer.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
-        for task in todos_data:
-            writer.writerow([employee_id, task.get("name"), task.get("completed"), task.get("title")])
+    with open("{}.csv".format(user_id), "w", newline="") as csvfile:
+        writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
+        for t in todos:
+            writer.writerow([user_id, username, t.get("completed"), t.get("title")])
